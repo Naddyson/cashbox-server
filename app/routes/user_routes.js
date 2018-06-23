@@ -19,7 +19,7 @@ router.post('/', function (req, res, next) {
 
         var userData = {
             email: req.body.email,
-            username: req.body.username,
+            username: req.body.username.toLowerCase(),
             password: req.body.password,
             location: req.body.location
         }
@@ -35,7 +35,7 @@ router.post('/', function (req, res, next) {
 
     } else if (req.body.logusername && req.body.logpassword) {
         console.log(req.body);
-        User.authenticate(req.body.logusername, req.body.logpassword, function (error, user) {
+        User.authenticate(req.body.logusername.toLowerCase(), req.body.logpassword, function (error, user) {
             if (error || !user) {
                 var err = new Error('Wrong username or password.');
                 err.status = 401;
