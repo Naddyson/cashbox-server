@@ -64,7 +64,11 @@ export default function (app, db) {
 
             session.save( (err, updated) => {
                 if (err) console.log(err);
-                res.send(updated)
+                let response = {
+                    earned: cashChange,
+                    newHistory: newHistory
+                }
+                res.send(response)
             })
         });
         /*db.collection('WorkSession').update(details, {$inc: {cash: cashChange}}, (err, result) => {
