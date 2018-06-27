@@ -22,29 +22,35 @@ export default function (app, db) {
     app.post('/session', (req, res) => {
         console.log(req.body);
         let username = '';
-        WorkSession.findById(ObjectID(req.body.workerID), (err, worker) => {
-            username = worker.username;
-        });
-        if (req.body.workerID){
-            var session = {
-                workerID: req.body.workerID,
-                username: username,
-                startTime: new Date(),
-                finishTime: null,
-                cash: 0,
-                history: []
-            }
-            WorkSession.create(session, function (error, session) {
-                if (error) {
-                    res.send(error);
-                } else {
-                    return res.send(session);
-                }
-            });
+        User.find({ _id: ObjectID(req.body.workerID) }, (err, user) => {
+            if (err) console.log(err);
+            console.log(user)
+            username = user[0].username;
+        }).then( () => {
+            if (req.body.workerID){
+                var session = {
+                    workerID: req.body.workerID,
+                    username: username,
+                    startTime: new Date(),
+                    finishTime: null,
+                    cash: 0,
+                    history: []
+                };
+                console.log(session)
+                WorkSession.create(session, function (error, session) {
+                    if (error) {
+                        res.send(error);
+                    } else {
+                        console.log(session);
+                        return res.send(session._id);
+                    }
+                });
 
-        } else {
-            res.send({'error': 'Wrong Worker ID!'})
-        }
+            } else {
+                res.send({'error': 'Wrong Worker ID!'})
+            }
+        });
+
 
 
 
