@@ -3,12 +3,12 @@ import mongoose from "mongoose";
 const Schema = mongoose.Schema;
 
 const WorkSessionSchema = new Schema({
-    workerHash     : { type: String, required: true },
+    workerID     : { type: String, required: true },
     startTime      : { type: Date, required: true },
     finishTime     : { type: Date },
     cash : { type: Number, required: true },
     history: [],
-   /* photo: { type: Buffer }*/
+    /* photo: { type: Buffer }*/
 });
 
 var WorkSession = mongoose.model('WorkSession', WorkSessionSchema);

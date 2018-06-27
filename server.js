@@ -51,7 +51,7 @@ app.use(function (req, res, next) {
     next(err);
 });
 
-app.listen(process.env.PORT || 3000, function () {
+app.listen(process.env.PORT || 3001, function () {
     console.log('Express app listening on port '+ port);
 });
 // error handler

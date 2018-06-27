@@ -1,9 +1,15 @@
 var ObjectID = require('mongodb').ObjectID;
+import WorkSession from '../models/WorkSession'
 import User from '../models/User'
+import mongoose from 'mongoose'
+import moment from 'moment'
+
+
 export default function (app, db) {
     app.get('/session/:id', (req,res) => {
         const id = req.params.id;
         const details = {'_id': ObjectID(id) };
+
         db.collection('WorkSession').findOne(details, (err, item) => {
             if(err){
                 res.send({'error': 'Wrong session ID!'});
@@ -23,14 +29,14 @@ export default function (app, db) {
                 cash: 0,
                 history: []
             }
-            db.collection('WorkSession').insert(session, (err, result) => {
-                if (err) {
-                    res.send({'error': 'Something going wrong in session create'});
+            WorkSession.create(session, function (error, session) {
+                if (error) {
+                    return next(error);
                 } else {
-                    console.log(result.ops[0])
-                    res.send(result.ops[0]);
+                    return res.send(session);
                 }
             });
+
         } else {
             res.send({'error': 'Wrong Worker ID!'})
         }
@@ -44,12 +50,24 @@ export default function (app, db) {
         const details = {'_id': ObjectID(id) };
         console.log(req.body)
         let cashChange = parseInt(req.body.cash);
-        console.log(cashChange);
-        let response = {
-            earned: 0,
-            newHistory: {}
-        }
-        db.collection('WorkSession').update(details, {$inc: {cash: cashChange}}, (err, result) => {
+
+        WorkSession.findById(ObjectID(id), (err, session) => {
+            if (err) console.log(err);
+            let newValue = session.cash + cashChange;
+            session.cash = newValue;
+
+            let newHistory =  {
+                date: new Date(),
+                cashChange: cashChange
+            };
+            session.history.push(newHistory);
+
+            session.save( (err, updated) => {
+                if (err) console.log(err);
+                res.send(updated)
+            })
+        });
+        /*db.collection('WorkSession').update(details, {$inc: {cash: cashChange}}, (err, result) => {
             if (err) {
                 res.send({'error': 'Something going wrong in add cash'});
             } else {
@@ -66,7 +84,7 @@ export default function (app, db) {
 
 
             }
-        });
+        });*/
 
 
 
@@ -74,15 +92,46 @@ export default function (app, db) {
 
     app.put('/session_end/:id', (req, res) => {
         const id = req.params.id;
-        console.log(id)
-        const details = {'_id': ObjectID(id) };
-        db.collection('WorkSession').update(details, {$set: {finishTime: new Date()}}, (err, result) => {
-            if (err) {
-                res.send({'error': 'Something going wrong ($setfinishtime)'});
-            } else {
-                console.log(result);
-                res.send(result);
-            }
+        WorkSession.findById(ObjectID(id), (err, session) => {
+            if (err) console.log(err);
+            session.finishTime = new Date();
+
+            session.save( (err, updated) => {
+                if (err) console.log(err);
+                res.send(updated)
+            })
         });
+
+    });
+    app.get('/get-sessions/:date', (req, res) => {
+        //year, month, day
+        const params = req.params.date;
+        const date = {
+            year: parseInt(params.substring(0,4)),
+            month: parseInt(params.substring(4,6)),
+            day: parseInt(params.substring(6,8))
+        };
+
+        let found = [];
+        console.log(date)
+        WorkSession.find({ })
+            .exec( (err, sessions) => {
+                sessions.forEach((ses) => {
+                    if (
+                        ses.startTime.getFullYear() === date.year &&
+                        ses.startTime.getMonth() === date.month &&
+                        ses.startTime.getDate() === date.day
+                    ) {
+                        console.log('push')
+                        found.push(ses)
+                    } else {
+                        console.log(ses.startTime.getFullYear());
+                        console.log(ses.startTime.getMonth());
+                        console.log(ses.startTime.getDate());
+                    }
+
+                })
+                res.send(found)
+            });
     });
 }
