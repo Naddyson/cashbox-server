@@ -59,8 +59,6 @@ export default function (app, db) {
 
     app.put('/add-cash/:id', (req, res) => {
         const id = req.params.id;
-        const details = {'_id': ObjectID(id) };
-        console.log(req.body)
         let cashChange = parseInt(req.body.cash);
 
         WorkSession.findById(ObjectID(id), (err, session) => {
@@ -121,20 +119,18 @@ export default function (app, db) {
     });
     app.post('/get-sessions', (req, res) => {
         //year, month, day
-        console.log('hheyyyy')
         const date = req.body;
 
         let found = [];
-        console.log(date)
         WorkSession.find({ })
             .exec( (err, sessions) => {
                 sessions.forEach((ses) => {
                     if (
                         ses.startTime.getFullYear() === parseInt(date.year) &&
-                        ses.startTime.getMonth() === parseInt(date.month) &&
+                        ses.startTime.getMonth() === parseInt(date.month-1) &&
                         ses.startTime.getDate() === parseInt(date.day)
                     ) {
-                        console.log('push')
+
                         found.push(ses)
                     }
                 })

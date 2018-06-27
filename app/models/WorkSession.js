@@ -5,6 +5,7 @@ const Schema = mongoose.Schema;
 const WorkSessionSchema = new Schema({
     workerID     : { type: String, required: true },
     username : { type: String, required: true },
+    city: { type: String, required: true },
     startTime      : { type: Date, required: true },
     finishTime     : { type: Date },
     cash : { type: Number, required: true },
