@@ -21,9 +21,14 @@ export default function (app, db) {
     });
     app.post('/session', (req, res) => {
         console.log(req.body);
+        let username = '';
+        WorkSession.findById(ObjectID(req.body.workerID), (err, worker) => {
+            username = worker.username;
+        });
         if (req.body.workerID){
             var session = {
                 workerID: req.body.workerID,
+                username: username,
                 startTime: new Date(),
                 finishTime: null,
                 cash: 0,
@@ -107,14 +112,10 @@ export default function (app, db) {
         });
 
     });
-    app.get('/get-sessions/:date', (req, res) => {
+    app.post('/get-sessions/', (req, res) => {
         //year, month, day
-        const params = req.params.date;
-        const date = {
-            year: parseInt(params.substring(0,4)),
-            month: parseInt(params.substring(4,6)),
-            day: parseInt(params.substring(6,8))
-        };
+
+        const date = req.body;
 
         let found = [];
         console.log(date)
