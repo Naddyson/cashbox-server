@@ -36,7 +36,7 @@ export default function (app, db) {
             }
             WorkSession.create(session, function (error, session) {
                 if (error) {
-                    return next(error);
+                    res.send(error);
                 } else {
                     return res.send(session);
                 }

@@ -2,7 +2,6 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="8d4d010a-0263-4815-a50e-9183ac751e06" name="Default" comment="">
-      <change beforePath="$PROJECT_DIR$/app/models/WorkSession.js" beforeDir="false" afterPath="$PROJECT_DIR$/app/models/WorkSession.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/routes/session_routes.js" beforeDir="false" afterPath="$PROJECT_DIR$/app/routes/session_routes.js" afterDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/.tmp/" />
@@ -20,8 +19,8 @@
       <file leaf-file-name="session_routes.js" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/app/routes/session_routes.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="165">
-              <caret line="23" column="25" selection-start-line="23" selection-start-column="25" selection-end-line="23" selection-end-column="25" />
+            <state relative-caret-position="90">
+              <caret line="35" column="13" lean-forward="true" selection-start-line="35" selection-start-column="13" selection-end-line="35" selection-end-column="13" />
               <folding>
                 <element signature="e#44#91#0" expanded="true" />
               </folding>
@@ -182,18 +181,18 @@
       <workItem from="1529712889122" duration="105000" />
       <workItem from="1529765339989" duration="748000" />
       <workItem from="1530060122053" duration="1010000" />
-      <workItem from="1530061197126" duration="10457000" />
+      <workItem from="1530061197126" duration="11349000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="76106000" />
+    <option name="totallyTimeSpent" value="76998000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-1" y="0" width="1368" height="741" extended-state="6" />
     <editor active="true" />
     <layout>
-      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.4988831" />
+      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.4988831" />
       <window_info anchor="bottom" id="TODO" order="6" />
       <window_info anchor="bottom" id="Docker" order="7" show_stripe_button="false" />
       <window_info anchor="bottom" id="Event Log" order="7" side_tool="true" />
@@ -201,7 +200,7 @@
       <window_info anchor="bottom" id="Version Control" order="7" />
       <window_info anchor="bottom" id="Run" order="2" weight="0.3284553" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
-      <window_info anchor="bottom" id="Terminal" order="7" visible="true" weight="0.25853658" />
+      <window_info active="true" anchor="bottom" id="Terminal" order="7" visible="true" weight="0.25853658" />
       <window_info id="Favorites" order="2" side_tool="true" />
       <window_info anchor="bottom" id="Debug" order="3" weight="0.4" />
       <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
@@ -397,8 +396,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/app/routes/session_routes.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="165">
-          <caret line="23" column="25" selection-start-line="23" selection-start-column="25" selection-end-line="23" selection-end-column="25" />
+        <state relative-caret-position="90">
+          <caret line="35" column="13" lean-forward="true" selection-start-line="35" selection-start-column="13" selection-end-line="35" selection-end-column="13" />
           <folding>
             <element signature="e#44#91#0" expanded="true" />
           </folding>
