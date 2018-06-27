@@ -1,7 +1,6 @@
 var ObjectID = require('mongodb').ObjectID;
 import WorkSession from '../models/WorkSession'
 import User from '../models/User'
-import mongoose from 'mongoose'
 import moment from 'moment'
 
 
@@ -22,15 +21,17 @@ export default function (app, db) {
     app.post('/session', (req, res) => {
         console.log(req.body);
         let username = '';
+        let city = '';
         User.find({ _id: ObjectID(req.body.workerID) }, (err, user) => {
             if (err) console.log(err);
-            console.log(user)
             username = user[0].username;
+            city = user[0].location;
         }).then( () => {
             if (req.body.workerID){
                 var session = {
                     workerID: req.body.workerID,
                     username: username,
+                    city: city,
                     startTime: new Date(),
                     finishTime: null,
                     cash: 0,
@@ -118,9 +119,9 @@ export default function (app, db) {
         });
 
     });
-    app.post('/get-sessions/', (req, res) => {
+    app.post('/get-sessions', (req, res) => {
         //year, month, day
-
+        console.log('hheyyyy')
         const date = req.body;
 
         let found = [];
@@ -129,18 +130,13 @@ export default function (app, db) {
             .exec( (err, sessions) => {
                 sessions.forEach((ses) => {
                     if (
-                        ses.startTime.getFullYear() === date.year &&
-                        ses.startTime.getMonth() === date.month &&
-                        ses.startTime.getDate() === date.day
+                        ses.startTime.getFullYear() === parseInt(date.year) &&
+                        ses.startTime.getMonth() === parseInt(date.month) &&
+                        ses.startTime.getDate() === parseInt(date.day)
                     ) {
                         console.log('push')
                         found.push(ses)
-                    } else {
-                        console.log(ses.startTime.getFullYear());
-                        console.log(ses.startTime.getMonth());
-                        console.log(ses.startTime.getDate());
                     }
-
                 })
                 res.send(found)
             });
