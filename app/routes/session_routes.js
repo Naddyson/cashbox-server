@@ -1,7 +1,8 @@
 var ObjectID = require('mongodb').ObjectID;
 import WorkSession from '../models/WorkSession'
 import User from '../models/User'
-import moment from 'moment'
+import moment from 'moment';
+
 
 
 export default function (app, db) {
@@ -32,7 +33,7 @@ export default function (app, db) {
                     workerID: req.body.workerID,
                     username: username,
                     city: city,
-                    startTime: new Date(),
+                    startTime: moment().add(3, 'hours'),
                     finishTime: null,
                     cash: 0,
                     history: []
@@ -67,7 +68,7 @@ export default function (app, db) {
             session.cash = newValue;
 
             let newHistory =  {
-                date: new Date(),
+                date: moment().add(3, 'hours'),
                 cashChange: cashChange
             };
             session.history.push(newHistory);
@@ -108,7 +109,7 @@ export default function (app, db) {
         const id = req.params.id;
         WorkSession.findById(ObjectID(id), (err, session) => {
             if (err) console.log(err);
-            session.finishTime = new Date();
+            session.finishTime = moment().add(3, 'hours');
 
             session.save( (err, updated) => {
                 if (err) console.log(err);
@@ -124,16 +125,18 @@ export default function (app, db) {
         let found = [];
         WorkSession.find({ })
             .exec( (err, sessions) => {
+
                 sessions.forEach((ses) => {
+                    console.log(ses.startTime);
                     if (
-                        ses.startTime.getFullYear() === parseInt(date.year) &&
-                        ses.startTime.getMonth() === parseInt(date.month-1) &&
-                        ses.startTime.getDate() === parseInt(date.day)
+                        parseInt(ses.startTime.getFullYear()) === parseInt(date.year) &&
+                        parseInt(ses.startTime.getMonth()) === parseInt(date.month-1) &&
+                        parseInt(ses.startTime.getDate()) === parseInt(date.day)
                     ) {
 
                         found.push(ses)
                     }
-                })
+                });
                 res.send(found)
             });
     });
